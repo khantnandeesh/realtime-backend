@@ -1,11 +1,11 @@
 const { WebSocketServer } = require("ws");
 
-const wss = new WebSocketServer({ port: 8080 });
-const wss2 = new WebSocketServer({ port: 8090 });
+const wss = new WebSocketServer({ port: process.env.PORT });
+// const wss2 = new WebSocketServer({ port: 8090 });
 let obj = [];
 let msg = {};
 let obj2 = [];
-let storage=[]
+
 wss.on("connection", (socket) => {
   console.log("connection");
 
@@ -61,43 +61,43 @@ wss.on("connection", (socket) => {
   });
 });
 
-wss2.on("connection", (socket) => {
-  socket.on("message", (e) => {
+// wss2.on("connection", (socket) => {
+//   socket.on("message", (e) => {
 
-    let parseObj;
+//     let parseObj;
     
     
-    try{
-        parseObj=JSON.parse(e.toString());
-    }
-    catch(err){console.log("audio buffer reaching quick!");
-    }
-    if (parseObj&&parseObj.type == "join") {
-      let elem = {
-        name: parseObj.payload.name,
-        socket,
-        roomId: parseObj.payload.roomId,
-      };
-      obj2.push(elem);
-      console.log("AUDIO STREAM SUCCESS!");
+//     try{
+//         parseObj=JSON.parse(e.toString());
+//     }
+//     catch(err){console.log("audio buffer reaching quick!");
+//     }
+//     if (parseObj&&parseObj.type == "join") {
+//       let elem = {
+//         name: parseObj.payload.name,
+//         socket,
+//         roomId: parseObj.payload.roomId,
+//       };
+//       obj2.push(elem);
+//       console.log("AUDIO STREAM SUCCESS!");
       
       
-    } else {
-        let arrayBuffer = e;
-        console.log(arrayBuffer);
+//     } else {
+//         let arrayBuffer = e;
+//         console.log(arrayBuffer);
         
-        let roomId;
-        obj2.map((BIGSOCKET) => {
-            if (BIGSOCKET.socket == socket) {
-            BIGSOCKET.roomId = roomId;
-            }
-        });
-        let arr = msg[roomId];
-        obj2.map((BIGSOCKET) => {
-        if (BIGSOCKET.roomId == roomId && BIGSOCKET.socket != socket) {
-          BIGSOCKET.socket.send(arrayBuffer);
-        }
-      });
-    }
-  });
-});
+//         let roomId;
+//         obj2.map((BIGSOCKET) => {
+//             if (BIGSOCKET.socket == socket) {
+//             BIGSOCKET.roomId = roomId;
+//             }
+//         });
+//         let arr = msg[roomId];
+//         obj2.map((BIGSOCKET) => {
+//         if (BIGSOCKET.roomId == roomId && BIGSOCKET.socket != socket) {
+//           BIGSOCKET.socket.send(arrayBuffer);
+//         }
+//       });
+//     }
+//   });
+// });
