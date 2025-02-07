@@ -109,7 +109,14 @@ let socketToemail=new Map();
 let joined = []
 let done=false
 wss2.on("connection",(socket)=>{
+    if(joined.length==2){
+        joined=[];
+        emailTosocket=new Map();
+        socketToemail=new Map();
+        
+    }
     console.log("connecting!");
+    
     socket.on("message",(e)=>{
 
             
@@ -201,3 +208,6 @@ wss2.on("connection",(socket)=>{
 
     })
 })
+
+
+
